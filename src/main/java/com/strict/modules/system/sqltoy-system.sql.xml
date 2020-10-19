@@ -8,9 +8,11 @@
 		<!-- alive-max:最大存放多少个不同查询条件的总记录量; alive-seconds:查询条件记录量存活时长(比如120秒,超过阀值则重新查询) -->
 		<page-optimize alive-max="100" alive-seconds="120" />
 		<!-- 安全脱敏,type提供了几种标准的脱敏模式 mask-rate:脱敏比例 mask-code:自定义脱敏掩码,一般***,默认为*** 
+		<!-- 安全脱敏,type提供了几种标准的脱敏模式 mask-rate:脱敏比例 mask-code:自定义脱敏掩码,一般***,默认为***
 			head-size:前面保留多长字符 tail-size:尾部保留多长字符 -->
 		<secure-mask columns="address" type="address" />
 		<secure-mask columns="tel_no" type="tel" />
+		<secure-mask columns="staff" type="tel" />
 		<value>
 			<![CDATA[
 			select t1.*,t2.ORGAN_NAME 
@@ -28,6 +30,31 @@
 		<!-- <count-sql></count-sql> -->
 	</sql>
 
+    <sql id="sys_findRole" >
+		<page-optimize alive-max="100" alive-seconds="120" />
+		<value>
+			<![CDATA[
+				SELECT t1.* FROM @fast(select t.*
+										from sys_role t
+										where t.delflag =0
+										#[and t.role_name like :roleName]
+										order by t.create_time
+			) t1
+			]]>
+		</value>
+	</sql>
 
+	<sql id="sys_findStaffInfo">
+		<value>
+			<![CDATA[
+				SELECT t1.* FROM @fast(select t.*
+										from SYS_AUTHORITY t
+											where t.delflag = 0
+											#[and t.au_name like :auName]
+											order by t.create_time
+				) t1
+			]]>
+		</value>
+	</sql>
 
 </sqltoy>

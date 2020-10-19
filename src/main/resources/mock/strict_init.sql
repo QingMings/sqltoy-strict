@@ -291,3 +291,53 @@ INSERT INTO SYS_STAFF_INFO
 (`STAFF_ID`, `STAFF_CODE`, `STAFF_NAME`, `ORGAN_ID`, `SEX_TYPE`, `BIRTHDAY`, `ENTRY_DATE`, `TERM_DATE`, `PHOTO`, `COUNTRY`, `CENSUS_REGISTER`, `ADDRESS`, `EMAIL`, `TEL_NO`, `POST`, `POST_GRADE`, `CREATE_BY`, `CREATE_TIME`, `UPDATE_BY`, `UPDATE_TIME`, `STATUS`)
 VALUES('S0012', 'S0012', '陈大鹏', '100007', 'M', NULL, '2019-08-01', NULL, NULL, '86', NULL, '上海市黄浦区三大路254号402室', NULL, '13987488762', 'M', 'L5', 'S0001', '2019-07-31 11:19:31.000', 'S0001', '2019-07-31 11:19:31.000', 0);
 
+
+
+
+create table SYS_AUTHORITY
+(
+    AU_ID varchar(40) not null,
+    AU_CODE varchar(10) not null,
+    AU_PCODE varchar(10) not null,
+    AU_NAME varchar(128) not null,
+    AU_TYPE varchar(2) null,
+    AU_NOTE varchar(128) null,
+    CREATE_BY varchar(40) null,
+    CREATE_TIME datetime null,
+    UPDATE_BY varchar(40) null,
+    UPDATE_TIME datetime null,
+    DELFLAG decimal(1) default 0 null,
+    NODE_ROUTE varchar(200) null,
+    NODE_LEVEL decimal(1) null,
+    IS_LEAF decimal(1) null,
+    constraint SYS_AUTHORITY_AU_CODE_uindex
+        unique (AU_CODE),
+    constraint SYS_AUTHORITY_AU_ID_uindex
+        unique (AU_ID),
+    constraint SYS_AUTHORITY_AU_NAME_uindex
+        unique (AU_NAME)
+)
+    comment '权限表';
+
+alter table SYS_AUTHORITY
+    add primary key (AU_ID);
+
+
+
+create table SYS_ROLE
+(
+    ROLE_ID varchar(40) not null,
+    ROLE_NAME varchar(512) not null,
+    CREATE_BY varchar(40) not null,
+    CREATE_TIME datetime not null,
+    UPDATE_BY varchar(40) not null,
+    UPDATE_TIME datetime not null,
+    DELFLAG decimal(1) default 0 not null,
+    constraint SYS_ROLE_ROLE_ID_uindex
+        unique (ROLE_ID)
+)
+    comment '角色';
+
+alter table SYS_ROLE
+    add primary key (ROLE_ID);
+
