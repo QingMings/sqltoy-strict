@@ -19,6 +19,7 @@
 	
 	<tasks dist="../../src/main/java" encoding="UTF-8">
 		<task active="true" author="zhongxuchen" include="^SAG_\w+" datasource="strict" swagger-model="true">
+		    <!-- entity 配置中存在has-abstract:默认为true,可以设置为false表示pojo不需要抽象类  -->
 			<entity package="${project.package}.sagacity.entity" substr="Sag" name="#{subName}"/>
 			<!-- 在pojo和vo严格分层情况下，VO支持 lombok="true" lombok-chain="true" 避免生成get/set -->
 			<vo package="${project.package}.sagacity.vo" substr="Sag" name="#{subName}VO" />
@@ -50,8 +51,9 @@
 	</business-primary-key>
 
 	<!-- 主子表的级联关系 update-cascade:delete 表示对存量数据进行删除操作,也可以写成:ENABLED=0(sql片段,置状态为无效) -->
-	<cascade>
-		<table name="SAG_DICT_DETAIL" update-cascade="delete" load="STATUS=1" />
+	<!--  常规情况下无需配置cascade,也不推荐，这里只是演示说明，不要被误导   -->
+	<cascade main-table="SAG_DICT_TYPE">
+		<!-- <table  name="SAG_DICT_DETAIL"  update-cascade="delete" load="STATUS=1" /> -->
 	</cascade>
 
 	<!-- 数据类型对应关系 native-types表示特定数据库返回的字段类型; jdbc-type：表示对应jdbc标准的类型(见:java.sql.Types), 

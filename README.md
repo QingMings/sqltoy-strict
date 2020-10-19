@@ -6,6 +6,8 @@
 ```xml
 <tasks dist="../../src/main/java" encoding="UTF-8">
 		<task active="true" author="zhongxuchen" include="^SAG_\w+" datasource="quickstart" swagger-model="true">
+		    <!-- entity 默认是包含抽象类的，可以通过 has-abstract="false" 关闭 -->
+		    <!-- entity 分成抽象类和实体类目的在于可以在实体类上做一些属性扩展,便于扩展附加查询属性 -->
 			<entity package="${project.package}.sagacity.entity" substr="Sag" name="#{subName}"/>
 			<vo package="${project.package}.sagacity.vo" substr="Sag" name="#{subName}VO" />
 		</task>
@@ -25,3 +27,8 @@
 ## 4. 通过启动StrictApplication进行swagger演示
 * 访问:http://localhost:8080/swagger-ui/ 
 * 可以完成字典分类的维护和唯一性验证，参见:DictTypeController
+
+# 规则说明
+## sqltoy常规情况下通过SqlToyLazyDao来避免开发者写转接式的dao
+* 转接式的Dao就是本质可以通过统一的dao来完成的，为了保持service、dao这种结构形态，刻意写出一个dao然后其中不包含任何的附加逻辑只做一个转调
+## sqltoy强调通用但不回避意外，坚决不搞极端主义，所以sqltoy推荐针对部分场景开发者可以提供dao，但不建议mybatis模式的接口式的dao(纯接口能干的用lazyDao,不能干的就需要给开发者自行实现)
